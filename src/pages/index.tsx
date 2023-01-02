@@ -36,14 +36,14 @@ const Home: NextPage = () => {
           {folderData
             .filter((folder) => !folder.parent)
             .map((folder) => (
-              <FolderItem folder={folder} />
+              <FolderItem key={folder.id} folder={folder} />
             ))}
         </div>
         <div className="flex w-full flex-col gap-2">
           {noteData
-            .filter((folder) => !folder.parent)
+            .filter((note) => !note.parent)
             .map((note) => (
-              <NoteItem name={note.name} />
+              <NoteItem key={note.id} name={note.name} />
             ))}
         </div>
       </div>

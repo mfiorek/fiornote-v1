@@ -46,14 +46,14 @@ const FolderId: NextPage = () => {
             {folderData
               .filter((folder) => folder.parent === parentFolder?.parent)
               .map((folder) => (
-                <FolderItem folder={folder} isSelected={folder.id === parentFolder?.id} />
+                <FolderItem key={folder.id} folder={folder} isSelected={folder.id === parentFolder?.id} />
               ))}
           </div>
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {noteData
-              .filter((folder) => folder.parent === parentFolder?.parent)
+              .filter((note) => note.parent === parentFolder?.parent)
               .map((note) => (
-                <NoteItem name={note.name} />
+                <NoteItem key={note.id} name={note.name} />
               ))}
           </div>
         </div>
@@ -65,14 +65,14 @@ const FolderId: NextPage = () => {
             {folderData
               .filter((folder) => folder.parent === folderId)
               .map((folder) => (
-                <FolderItem folder={folder} />
+                <FolderItem key={folder.id} folder={folder} />
               ))}
           </div>
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {noteData
-              .filter((folder) => folder.parent === folderId)
+              .filter((note) => note.parent === folderId)
               .map((note) => (
-                <NoteItem name={note.name} />
+                <NoteItem key={note.id} name={note.name} />
               ))}
           </div>
         </div>
