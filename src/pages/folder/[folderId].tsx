@@ -26,7 +26,12 @@ const FolderId: NextPage = () => {
   return (
     <Layout>
       <div className="mb-4 flex w-full items-center justify-between">
-        <div className="cursor-pointer rounded bg-slate-700 p-2" onClick={() => router.back()}>
+        <div
+          className="cursor-pointer rounded bg-slate-700 p-2"
+          onClick={() => {
+            parentFolder?.parent ? router.push(`/folder/${parentFolder.parent}`) : router.push("/");
+          }}
+        >
           <ChevronLeftIcon className="h-6 w-6" />
         </div>
         <div className="flex gap-2">
