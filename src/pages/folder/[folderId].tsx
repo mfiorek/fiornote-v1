@@ -29,7 +29,6 @@ const FolderId: NextPage = () => {
         <div className="cursor-pointer rounded bg-slate-700 p-2" onClick={() => router.back()}>
           <ChevronLeftIcon className="h-6 w-6" />
         </div>
-        <h1 className="text-xl font-bold">{parentFolder?.name}</h1>
         <div className="flex gap-2">
           <div className="rounded bg-slate-700 p-2">
             <FolderPlusIcon className="h-6 w-6" />
@@ -47,7 +46,7 @@ const FolderId: NextPage = () => {
             {folderData
               .filter((folder) => folder.parent === parentFolder?.parent)
               .map((folder) => (
-                <FolderItem folder={folder} />
+                <FolderItem folder={folder} isSelected={folder.id === parentFolder?.id} />
               ))}
           </div>
           <div className="flex w-full flex-col gap-2 empty:hidden">
