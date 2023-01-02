@@ -17,6 +17,8 @@ model Note {
   name      String
   text      String
   parent    String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Folder {
@@ -25,6 +27,8 @@ model Folder {
   updatedAt DateTime @updatedAt
   name      String
   parent    String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Necessary for Next auth
@@ -62,6 +66,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  notes         Note[]
+  folders       Folder[]
 }
 
 model VerificationToken {
