@@ -4,6 +4,7 @@ import Loader from "../components/Loader";
 import Layout from "../components/Layout";
 import FolderItem from "../components/FolderItem";
 import NoteItem from "../components/NoteItem";
+import { FolderPlusIcon, PencilIcon } from "@heroicons/react/24/outline";
 
 const Home: NextPage = () => {
   const { data: folderData, isLoading: folderLoading } = trpc.folder.getAll.useQuery();
@@ -18,7 +19,18 @@ const Home: NextPage = () => {
   }
   return (
     <Layout>
-      <h1 className="text-7xl font-extralight text-white">fiornote</h1>
+      <div className="mb-4 flex w-full items-center justify-between">
+        <h1 className="text-2xl font-extralight">fiornote</h1>
+        <div className="flex gap-2">
+          <div className="rounded bg-slate-700 p-2">
+            <FolderPlusIcon className="h-6 w-6" />
+          </div>
+
+          <div className="rounded bg-slate-700 p-2">
+            <PencilIcon className="h-6 w-6" />
+          </div>
+        </div>
+      </div>
       <div className="flex w-full flex-col gap-2">
         <div className="flex w-full flex-col gap-2">
           {folderData
