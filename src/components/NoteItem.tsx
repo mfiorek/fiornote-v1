@@ -1,16 +1,25 @@
 import React from "react";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { Note } from "@prisma/client";
+import { PencilSquareIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 interface NoteItemProps {
-  name: string;
+  note: Note;
+  isSelected?: boolean;
 }
 
-const NoteItem: React.FC<NoteItemProps> = ({ name }) => {
+const NoteItem: React.FC<NoteItemProps> = ({ note, isSelected }) => {
   return (
-    <div className="flex w-full gap-2 rounded border border-emerald-600 bg-slate-300 p-3 dark:bg-slate-700">
-      <PencilSquareIcon className="h-6 w-6 text-emerald-600" />
-      <p>{name}</p>
-    </div>
+    <Link href={`/note/${note.id}`} className={`flex w-full gap-2 rounded border border-emerald-600 p-3 bg-slate-700 ${isSelected && "bg-emerald-800"}`}>
+      
+      <div className="flex w-full justify-between items-center">
+        <div className="flex flex-1 gap-2">
+          <PencilSquareIcon className={`h-6 w-6 ${!isSelected && "text-emerald-600"}`} />
+          <p className={`${isSelected && "font-bold"}`}>{note.name}</p>
+        </div>
+        {isSelected && <ChevronRightIcon className="h-6 w-6" />}
+      </div>
+    </Link>
   );
 };
 

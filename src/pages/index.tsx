@@ -43,7 +43,7 @@ const Home: NextPage = () => {
           {noteData
             .filter((note) => !note.parent)
             .map((note) => (
-              <NoteItem key={note.id} name={note.name} />
+              <NoteItem key={note.id} note={note} />
             ))}
         </div>
       </div>
