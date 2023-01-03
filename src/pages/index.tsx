@@ -41,6 +41,7 @@ const Home: NextPage = () => {
           <div className="flex w-full flex-col gap-2">
             {folderData
               .filter((folder) => !folder.parent)
+              .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((folder) => (
                 <FolderItem key={folder.id} folder={folder} />
               ))}
@@ -48,6 +49,7 @@ const Home: NextPage = () => {
           <div className="flex w-full flex-col gap-2">
             {noteData
               .filter((note) => !note.parent)
+              .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((note) => (
                 <NoteItem key={note.id} note={note} />
               ))}

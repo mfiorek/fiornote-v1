@@ -60,6 +60,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {folderData
               .filter((folder) => folder.parent === currentFolder?.parent)
+              .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((folder) => (
                 <FolderItem key={folder.id} folder={folder} isSelected={folder.id === currentFolder?.id} />
               ))}
@@ -67,6 +68,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {noteData
               .filter((note) => note.parent === currentFolder?.parent)
+              .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((note) => (
                 <NoteItem key={note.id} note={note} />
               ))}
@@ -101,6 +103,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {folderData
               .filter((folder) => folder.parent === currentFolder.id)
+              .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((folder) => (
                 <FolderItem key={folder.id} folder={folder} />
               ))}
@@ -108,6 +111,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {noteData
               .filter((note) => note.parent === currentFolder.id)
+              .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((note) => (
                 <NoteItem key={note.id} note={note} />
               ))}
