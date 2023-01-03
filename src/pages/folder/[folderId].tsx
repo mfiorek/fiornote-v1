@@ -3,12 +3,13 @@ import { type NextPage } from "next";
 import { Folder, Note } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
 import { useRouter } from "next/router";
+import { useAddNewNote } from "../../hooks/useAddNewNote";
 import Loader from "../../components/Loader";
 import Layout from "../../components/Layout";
 import FolderItem from "../../components/FolderItem";
 import NoteItem from "../../components/NoteItem";
 import AddFolderModal from "../../components/AddFolderModal";
-import { FolderIcon, ChevronLeftIcon, FolderPlusIcon, DocumentPlusIcon, FolderOpenIcon } from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, FolderPlusIcon, DocumentPlusIcon, FolderOpenIcon } from "@heroicons/react/24/outline";
 
 interface NotePageContentsProps {
   currentFolder: Folder;
@@ -20,6 +21,8 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
   const router = useRouter();
   const [addFolderModalOpen, setAddFolderModalOpen] = useState(false);
   const [addFolderModalParent, setAddFolderModalParent] = useState<string | null>(null);
+
+  const mutateAddNewNote = useAddNewNote();
 
   return (
     <Layout>
@@ -48,7 +51,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
               >
                 <FolderPlusIcon className="h-6 w-6" />
               </button>
-              <button className="rounded bg-slate-700 p-2">
+              <button className="rounded bg-slate-700 p-2" onClick={() => mutateAddNewNote({ id: crypto.randomUUID(), parent: currentFolder.parent })} >
                 <DocumentPlusIcon className="h-6 w-6" />
               </button>
             </div>
@@ -83,14 +86,13 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
               <button
                 className="rounded bg-slate-700 p-2"
                 onClick={() => {
-                  console.log(currentFolder.id)
                   setAddFolderModalParent(currentFolder.id);
                   setAddFolderModalOpen(true);
                 }}
               >
                 <FolderPlusIcon className="h-6 w-6" />
               </button>
-              <button className="rounded bg-slate-700 p-2">
+              <button className="rounded bg-slate-700 p-2" onClick={() => mutateAddNewNote({ id: crypto.randomUUID(), parent: currentFolder.id })}>
                 <DocumentPlusIcon className="h-6 w-6" />
               </button>
             </div>

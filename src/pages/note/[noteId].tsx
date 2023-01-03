@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { type NextPage } from "next";
 import { Folder, Note } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
 import { useRouter } from "next/router";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { useAddNewNote } from "../../hooks/useAddNewNote";
 import ReactMarkdown from "react-markdown";
 import Loader from "../../components/Loader";
 import Layout from "../../components/Layout";
@@ -23,6 +24,10 @@ const NotePageContents: React.FC<NotePageContentsProps> = ({ currentNote, folder
   const [isEditing, setIsEditing] = useState(false);
   const [addFolderModalOpen, setAddFolderModalOpen] = useState(false);
 
+  useEffect(() => {
+    cancelEdit();
+  }, [router.asPath]);
+
   const utils = trpc.useContext();
   const { mutate: mutateUpdateNote } = trpc.note.update.useMutation({
     onMutate: async ({ name, text }) => {
@@ -40,6 +45,7 @@ const NotePageContents: React.FC<NotePageContentsProps> = ({ currentNote, folder
       utils.note.getAll.invalidate();
     },
   });
+  const mutateAddNewNote = useAddNewNote();
 
   const { register, handleSubmit, setValue } = useForm<{ name: string; text: string }>({ defaultValues: { name: currentNote.name, text: currentNote.text } });
 
@@ -75,7 +81,7 @@ const NotePageContents: React.FC<NotePageContentsProps> = ({ currentNote, folder
               <button className="rounded bg-slate-700 p-2" onClick={() => setAddFolderModalOpen(true)}>
                 <FolderPlusIcon className="h-6 w-6" />
               </button>
-              <button className="rounded bg-slate-700 p-2">
+              <button className="rounded bg-slate-700 p-2" onClick={() => mutateAddNewNote({ id: crypto.randomUUID(), parent: currentNote.parent })}>
                 <DocumentPlusIcon className="h-6 w-6" />
               </button>
             </div>

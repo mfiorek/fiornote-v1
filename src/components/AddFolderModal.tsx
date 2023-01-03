@@ -45,7 +45,7 @@ const AddFolderModal: React.FC<AddFolderModalProps> = ({ isOpen, setIsOpen, pare
 
       <div className="fixed inset-0 overflow-y-auto">
         <div className="flex min-h-full items-center justify-center">
-          <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-slate-700 p-6 text-left align-middle shadow-xl transition-all">
+          <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-slate-700 p-4 text-left align-middle shadow-xl transition-all">
             <Dialog.Title as="h3" className="text-2xl font-bold leading-6">
               New folder
             </Dialog.Title>
