@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
 export const noteRouter = router({
@@ -8,4 +9,24 @@ export const noteRouter = router({
       },
     });
   }),
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        text: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      const { id, name, text } = input;
+      return ctx.prisma.note.update({
+        where: {
+          id,
+        },
+        data: {
+          name,
+          text,
+        },
+      });
+    }),
 });
