@@ -7,7 +7,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
       <FiornoteHead />
       <main className="flex min-h-screen flex-col">
         <div className="flex grow bg-slate-800 text-slate-200">
-          <div className="mx-auto flex w-full flex-col items-center px-2 py-4 lg:max-w-5xl">{children}</div>
+          <div className="flex w-full flex-col items-center px-2 py-4">{children}</div>
         </div>
       </main>
     </>

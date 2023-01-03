@@ -16,7 +16,6 @@ const FolderItem: React.FC<FolderItemProps> = ({ folder, isSelected }) => {
           <FolderIcon className={`h-6 w-6 ${!isSelected && "text-sky-600"}`} />
           <p className={`${isSelected && "font-bold"}`}>{folder.name}</p>
         </div>
-        {isSelected && <ChevronRightIcon className="h-6 w-6" />}
       </div>
     </Link>
   );

@@ -19,32 +19,34 @@ const Home: NextPage = () => {
   }
   return (
     <Layout>
-      <div className="mb-4 flex w-full items-center justify-between">
-        <h1 className="text-2xl font-extralight">fiornote</h1>
-        <div className="flex gap-2">
-          <div className="rounded bg-slate-700 p-2">
-            <FolderPlusIcon className="h-6 w-6" />
-          </div>
+      <div className="mx-auto w-full lg:max-w-5xl">
+        <div className="mb-4 flex w-full items-center justify-between">
+          <h1 className="text-2xl font-extralight">fiornote</h1>
+          <div className="flex gap-2">
+            <div className="rounded bg-slate-700 p-2">
+              <FolderPlusIcon className="h-6 w-6" />
+            </div>
 
-          <div className="rounded bg-slate-700 p-2">
-            <PencilIcon className="h-6 w-6" />
+            <div className="rounded bg-slate-700 p-2">
+              <PencilIcon className="h-6 w-6" />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex w-full flex-col gap-2">
         <div className="flex w-full flex-col gap-2">
-          {folderData
-            .filter((folder) => !folder.parent)
-            .map((folder) => (
-              <FolderItem key={folder.id} folder={folder} />
-            ))}
-        </div>
-        <div className="flex w-full flex-col gap-2">
-          {noteData
-            .filter((note) => !note.parent)
-            .map((note) => (
-              <NoteItem key={note.id} note={note} />
-            ))}
+          <div className="flex w-full flex-col gap-2">
+            {folderData
+              .filter((folder) => !folder.parent)
+              .map((folder) => (
+                <FolderItem key={folder.id} folder={folder} />
+              ))}
+          </div>
+          <div className="flex w-full flex-col gap-2">
+            {noteData
+              .filter((note) => !note.parent)
+              .map((note) => (
+                <NoteItem key={note.id} note={note} />
+              ))}
+          </div>
         </div>
       </div>
     </Layout>

@@ -16,7 +16,6 @@ const NoteItem: React.FC<NoteItemProps> = ({ note, isSelected }) => {
           <DocumentIcon className={`h-6 w-6 ${!isSelected && "text-emerald-600"}`} />
           <p className={`${isSelected && "font-bold"}`}>{note.name}</p>
         </div>
-        {isSelected && <ChevronRightIcon className="h-6 w-6" />}
       </div>
     </Link>
   );

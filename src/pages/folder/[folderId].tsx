@@ -6,7 +6,7 @@ import Loader from "../../components/Loader";
 import Layout from "../../components/Layout";
 import FolderItem from "../../components/FolderItem";
 import NoteItem from "../../components/NoteItem";
-import { ChevronLeftIcon, FolderPlusIcon, DocumentPlusIcon } from "@heroicons/react/24/outline";
+import { FolderIcon, ChevronLeftIcon, FolderPlusIcon, DocumentPlusIcon } from "@heroicons/react/24/outline";
 
 interface NotePageContentsProps {
   currentFolder: Folder;
@@ -19,28 +19,31 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
 
   return (
     <Layout>
-      <div className="mb-4 flex w-full items-center justify-between">
-        <div
-          className="cursor-pointer rounded bg-slate-700 p-2"
-          onClick={() => {
-            currentFolder?.parent ? router.push(`/folder/${currentFolder.parent}`) : router.push("/");
-          }}
-        >
-          <ChevronLeftIcon className="h-6 w-6" />
-        </div>
-        <div className="flex gap-2">
-          <div className="rounded bg-slate-700 p-2">
-            <FolderPlusIcon className="h-6 w-6" />
-          </div>
-
-          <div className="rounded bg-slate-700 p-2">
-            <DocumentPlusIcon className="h-6 w-6" />
-          </div>
-        </div>
-      </div>
-
       <div className="grid w-full grow grid-cols-[1fr_1px_2fr] gap-2">
         <div className="flex w-full flex-col gap-2">
+          <div className="flex w-full items-center justify-between">
+            <div className="flex items-center gap-2">
+              <button
+                className="cursor-pointer rounded bg-slate-700 p-2"
+                onClick={() => {
+                  currentFolder.parent ? router.push(`/folder/${currentFolder.parent}`) : router.push("/");
+                }}
+              >
+                <ChevronLeftIcon className="h-6 w-6" />
+              </button>
+              <FolderIcon className="h-6 w-6" />
+              <p className="text-xl">{folderData.find((folder) => folder.id === currentFolder.parent)?.name || "Home"}</p>
+            </div>
+            <div className="flex gap-2">
+              <button className="rounded bg-slate-700 p-2">
+                <FolderPlusIcon className="h-6 w-6" />
+              </button>
+              <button className="rounded bg-slate-700 p-2">
+                <DocumentPlusIcon className="h-6 w-6" />
+              </button>
+            </div>
+          </div>
+          <span className="h-px bg-slate-600" />
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {folderData
               .filter((folder) => folder.parent === currentFolder?.parent)
@@ -60,6 +63,22 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
         <span className="bg-slate-600" />
 
         <div className="flex w-full flex-col gap-2">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 px-2">
+              <FolderIcon className="h-6 w-6" />
+              <p className="text-xl">{currentFolder.name}</p>
+            </div>
+
+            <div className="flex gap-2">
+              <button className="rounded bg-slate-700 p-2">
+                <FolderPlusIcon className="h-6 w-6" />
+              </button>
+              <button className="rounded bg-slate-700 p-2">
+                <DocumentPlusIcon className="h-6 w-6" />
+              </button>
+            </div>
+          </div>
+          <span className="h-px bg-slate-600" />
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {folderData
               .filter((folder) => folder.parent === currentFolder.id)

@@ -9,7 +9,7 @@ import Loader from "../../components/Loader";
 import Layout from "../../components/Layout";
 import FolderItem from "../../components/FolderItem";
 import NoteItem from "../../components/NoteItem";
-import { ChevronLeftIcon, PencilSquareIcon, DocumentCheckIcon, ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
+import { DocumentIcon, ChevronLeftIcon, PencilSquareIcon, DocumentCheckIcon, ArrowUturnLeftIcon, FolderIcon, FolderPlusIcon, DocumentPlusIcon } from "@heroicons/react/24/outline";
 
 interface NotePageContentsProps {
   currentNote: Note;
@@ -54,33 +54,31 @@ const NotePageContents: React.FC<NotePageContentsProps> = ({ currentNote, folder
 
   return (
     <Layout>
-      <div className="mb-4 flex w-full items-center justify-between">
-        <button
-          className="cursor-pointer rounded bg-slate-700 p-2"
-          onClick={() => {
-            currentNote.parent ? router.push(`/folder/${currentNote.parent}`) : router.push("/");
-          }}
-        >
-          <ChevronLeftIcon className="h-6 w-6" />
-        </button>
-        {isEditing ? (
-          <div className="flex gap-2">
-            <button className="cursor-pointer rounded bg-slate-700 p-2" type="submit" form="noteForm">
-              <DocumentCheckIcon className="h-6 w-6" />
-            </button>
-            <button className="cursor-pointer rounded bg-slate-700 p-2" onClick={cancelEdit}>
-              <ArrowUturnLeftIcon className="h-6 w-6" />
-            </button>
-          </div>
-        ) : (
-          <button className="cursor-pointer rounded bg-slate-700 p-2" onClick={() => setIsEditing(true)}>
-            <PencilSquareIcon className="h-6 w-6" />
-          </button>
-        )}
-      </div>
-
       <div className="grid w-full grow grid-cols-[1fr_1px_2fr] gap-2">
         <div className="flex w-full flex-col gap-2">
+          <div className="flex w-full items-center justify-between">
+            <div className="flex items-center gap-2">
+              <button
+                className="cursor-pointer rounded bg-slate-700 p-2"
+                onClick={() => {
+                  currentNote.parent ? router.push(`/folder/${currentNote.parent}`) : router.push("/");
+                }}
+              >
+                <ChevronLeftIcon className="h-6 w-6" />
+              </button>
+              <FolderIcon className="h-6 w-6" />
+              <p className="text-xl">{folderData.find((folder) => folder.id === currentNote.parent)?.name || "Home"}</p>
+            </div>
+            <div className="flex gap-2">
+              <button className="rounded bg-slate-700 p-2">
+                <FolderPlusIcon className="h-6 w-6" />
+              </button>
+              <button className="rounded bg-slate-700 p-2">
+                <DocumentPlusIcon className="h-6 w-6" />
+              </button>
+            </div>
+          </div>
+          <span className="h-px bg-slate-600" />
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {folderData
               .filter((folder) => folder.parent === currentNote.parent)
@@ -101,13 +99,23 @@ const NotePageContents: React.FC<NotePageContentsProps> = ({ currentNote, folder
 
         {isEditing ? (
           <form id="noteForm" className="flex h-full w-full flex-col gap-2" onSubmit={handleSubmit(saveNote)}>
-            <input
-              type="text"
-              placeholder={`Untitled ${new Date().toLocaleDateString()}`}
-              className="rounded border border-slate-400 bg-transparent p-2 text-xl focus-visible:outline focus-visible:outline-1 focus-visible:outline-slate-400"
-              {...register("name")}
-            />
-            <span className="h-[1px] w-full bg-slate-600" />
+            <div className="flex items-center justify-between gap-2">
+              <input
+                type="text"
+                placeholder={`Untitled ${new Date().toLocaleDateString()}`}
+                className="grow rounded border border-slate-400 bg-transparent px-2 py-1 text-xl focus-visible:outline focus-visible:outline-1 focus-visible:outline-slate-400"
+                {...register("name")}
+              />
+              <div className="flex gap-2">
+                <button className="cursor-pointer rounded bg-slate-700 p-2" type="submit" form="noteForm">
+                  <DocumentCheckIcon className="h-6 w-6" />
+                </button>
+                <button className="cursor-pointer rounded bg-slate-700 p-2" onClick={cancelEdit}>
+                  <ArrowUturnLeftIcon className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+            <span className="h-px w-full bg-slate-600" />
             <textarea
               className="h-full w-full whitespace-pre rounded border border-slate-400 bg-transparent p-2 text-slate-200 focus-visible:outline focus-visible:outline-1 focus-visible:outline-slate-400"
               placeholder="Text"
@@ -116,8 +124,16 @@ const NotePageContents: React.FC<NotePageContentsProps> = ({ currentNote, folder
           </form>
         ) : (
           <div className="flex flex-col gap-2 overflow-hidden">
-            <p className="p-2 text-xl">{currentNote.name}</p>
-            <span className="h-[1px] bg-slate-600" />
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 px-2">
+                <DocumentIcon className="h-6 w-6" />
+                <p className="text-xl">{currentNote.name}</p>
+              </div>
+              <button className="cursor-pointer rounded bg-slate-700 p-2" onClick={() => setIsEditing(true)}>
+                <PencilSquareIcon className="h-6 w-6" />
+              </button>
+            </div>
+            <span className="h-px bg-slate-600" />
             <ReactMarkdown className="h-full w-full overflow-scroll p-2">{currentNote.text}</ReactMarkdown>
           </div>
         )}
