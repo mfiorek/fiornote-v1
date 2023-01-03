@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { type NextPage } from "next";
 import { Folder, Note } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
@@ -6,6 +7,7 @@ import Loader from "../../components/Loader";
 import Layout from "../../components/Layout";
 import FolderItem from "../../components/FolderItem";
 import NoteItem from "../../components/NoteItem";
+import AddFolderModal from "../../components/AddFolderModal";
 import { FolderIcon, ChevronLeftIcon, FolderPlusIcon, DocumentPlusIcon } from "@heroicons/react/24/outline";
 
 interface NotePageContentsProps {
@@ -16,6 +18,8 @@ interface NotePageContentsProps {
 
 const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, folderData, noteData }) => {
   const router = useRouter();
+  const [addFolderModalOpen, setAddFolderModalOpen] = useState(false);
+  const [addFolderModalParent, setAddFolderModalParent] = useState<string | null>(null);
 
   return (
     <Layout>
@@ -35,7 +39,13 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
               <p className="text-xl">{folderData.find((folder) => folder.id === currentFolder.parent)?.name || "Home"}</p>
             </div>
             <div className="flex gap-2">
-              <button className="rounded bg-slate-700 p-2">
+              <button
+                className="rounded bg-slate-700 p-2"
+                onClick={() => {
+                  setAddFolderModalParent(currentFolder.parent);
+                  setAddFolderModalOpen(true);
+                }}
+              >
                 <FolderPlusIcon className="h-6 w-6" />
               </button>
               <button className="rounded bg-slate-700 p-2">
@@ -70,7 +80,14 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
             </div>
 
             <div className="flex gap-2">
-              <button className="rounded bg-slate-700 p-2">
+              <button
+                className="rounded bg-slate-700 p-2"
+                onClick={() => {
+                  console.log(currentFolder.id)
+                  setAddFolderModalParent(currentFolder.id);
+                  setAddFolderModalOpen(true);
+                }}
+              >
                 <FolderPlusIcon className="h-6 w-6" />
               </button>
               <button className="rounded bg-slate-700 p-2">
@@ -95,6 +112,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
           </div>
         </div>
       </div>
+      {addFolderModalOpen && <AddFolderModal isOpen={addFolderModalOpen} setIsOpen={setAddFolderModalOpen} parent={addFolderModalParent} />}
     </Layout>
   );
 };

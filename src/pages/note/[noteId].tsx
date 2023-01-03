@@ -9,6 +9,7 @@ import Loader from "../../components/Loader";
 import Layout from "../../components/Layout";
 import FolderItem from "../../components/FolderItem";
 import NoteItem from "../../components/NoteItem";
+import AddFolderModal from "../../components/AddFolderModal";
 import { DocumentIcon, ChevronLeftIcon, PencilSquareIcon, DocumentCheckIcon, ArrowUturnLeftIcon, FolderIcon, FolderPlusIcon, DocumentPlusIcon } from "@heroicons/react/24/outline";
 
 interface NotePageContentsProps {
@@ -20,6 +21,7 @@ interface NotePageContentsProps {
 const NotePageContents: React.FC<NotePageContentsProps> = ({ currentNote, folderData, noteData }) => {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
+  const [addFolderModalOpen, setAddFolderModalOpen] = useState(false);
 
   const utils = trpc.useContext();
   const { mutate: mutateUpdateNote } = trpc.note.update.useMutation({
@@ -70,7 +72,7 @@ const NotePageContents: React.FC<NotePageContentsProps> = ({ currentNote, folder
               <p className="text-xl">{folderData.find((folder) => folder.id === currentNote.parent)?.name || "Home"}</p>
             </div>
             <div className="flex gap-2">
-              <button className="rounded bg-slate-700 p-2">
+              <button className="rounded bg-slate-700 p-2" onClick={() => setAddFolderModalOpen(true)}>
                 <FolderPlusIcon className="h-6 w-6" />
               </button>
               <button className="rounded bg-slate-700 p-2">
@@ -138,6 +140,7 @@ const NotePageContents: React.FC<NotePageContentsProps> = ({ currentNote, folder
           </div>
         )}
       </div>
+      {addFolderModalOpen && <AddFolderModal isOpen={addFolderModalOpen} setIsOpen={setAddFolderModalOpen} parent={currentNote.parent} />}
     </Layout>
   );
 };
