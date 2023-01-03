@@ -8,7 +8,7 @@ import Layout from "../../components/Layout";
 import FolderItem from "../../components/FolderItem";
 import NoteItem from "../../components/NoteItem";
 import AddFolderModal from "../../components/AddFolderModal";
-import { FolderIcon, ChevronLeftIcon, FolderPlusIcon, DocumentPlusIcon } from "@heroicons/react/24/outline";
+import { FolderIcon, ChevronLeftIcon, FolderPlusIcon, DocumentPlusIcon, FolderOpenIcon } from "@heroicons/react/24/outline";
 
 interface NotePageContentsProps {
   currentFolder: Folder;
@@ -35,7 +35,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
               >
                 <ChevronLeftIcon className="h-6 w-6" />
               </button>
-              <FolderIcon className="h-6 w-6" />
+              <FolderOpenIcon className="h-6 w-6" />
               <p className="text-xl">{folderData.find((folder) => folder.id === currentFolder.parent)?.name || "Home"}</p>
             </div>
             <div className="flex gap-2">
@@ -75,7 +75,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
         <div className="flex w-full flex-col gap-2">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 px-2">
-              <FolderIcon className="h-6 w-6" />
+              <FolderOpenIcon className="h-6 w-6" />
               <p className="text-xl">{currentFolder.name}</p>
             </div>
 
