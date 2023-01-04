@@ -150,7 +150,7 @@ const SelectedNoteContents: React.FC<{ selectedNote: Note }> = ({ selectedNote }
         </button>
       </div>
       <span className="h-px bg-slate-600" />
-      <ReactMarkdown className="h-full w-full overflow-scroll p-2">{selectedNote.text}</ReactMarkdown>
+      <ReactMarkdown className="markdown h-full w-full overflow-scroll p-2">{selectedNote.text}</ReactMarkdown>
     </>
   );
 };
