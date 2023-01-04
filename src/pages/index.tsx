@@ -4,8 +4,8 @@ import { trpc } from "../utils/trpc";
 import { useAddNewNote } from "../hooks/useAddNewNote";
 import Loader from "../components/Loader";
 import Layout from "../components/Layout";
-import FolderItem from "../components/FolderItem";
-import NoteItem from "../components/NoteItem";
+import FolderLink from "../components/FolderLink";
+import NoteLink from "../components/NoteLink";
 import AddFolderModal from "../components/AddFolderModal";
 import { HomeIcon, DocumentPlusIcon, FolderPlusIcon } from "@heroicons/react/24/outline";
 
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   }
   return (
     <Layout>
-      <div className="mx-auto flex flex-col gap-2 w-full lg:max-w-5xl">
+      <div className="mx-auto flex w-full flex-col gap-2 lg:max-w-5xl">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-2 px-2">
             <HomeIcon className="h-6 w-6" />
@@ -47,7 +47,7 @@ const Home: NextPage = () => {
               .filter((folder) => !folder.parentFolderId)
               .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((folder) => (
-                <FolderItem key={folder.id} folder={folder} />
+                <FolderLink key={folder.id} folder={folder} selectedItemId={folder.id} />
               ))}
           </div>
           <div className="flex w-full flex-col gap-2">
@@ -55,7 +55,7 @@ const Home: NextPage = () => {
               .filter((note) => !note.parentFolderId)
               .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((note) => (
-                <NoteItem key={note.id} note={note} />
+                <NoteLink key={note.id} note={note} selectedItemId={note.id} />
               ))}
           </div>
         </div>

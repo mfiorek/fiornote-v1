@@ -6,18 +6,19 @@ import Link from "next/link";
 interface FolderItemProps {
   folder: Folder;
   isSelected?: boolean;
+  onClick: () => void;
 }
 
-const FolderItem: React.FC<FolderItemProps> = ({ folder, isSelected }) => {
+const FolderItem: React.FC<FolderItemProps> = ({ folder, isSelected, onClick }) => {
   return (
-    <Link href={`/folder/${folder.id}`} className={`flex w-full gap-2 rounded border border-sky-600 bg-slate-700 p-3 ${isSelected && "bg-sky-800"}`}>
+    <button onClick={onClick} className={`flex w-full gap-2 rounded border border-sky-600 bg-slate-700 p-3 ${isSelected && "bg-sky-800"}`}>
       <div className="flex w-full items-center justify-between">
         <div className="flex flex-1 gap-2">
           {isSelected ? <FolderOpenIcon className="h-6 w-6" /> : <FolderIcon className="h-6 w-6 text-sky-600" />}
           <p className={`${isSelected && "font-bold"}`}>{folder.name}</p>
         </div>
       </div>
-    </Link>
+    </button>
   );
 };
 
