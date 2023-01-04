@@ -26,11 +26,12 @@ import {
 } from "@heroicons/react/24/outline";
 
 interface SelectedFolderContentsProps {
+  currentFolder: Folder | null;
   selectedFolder: Folder;
   folderData: Folder[];
   noteData: Note[];
 }
-const SelectedFolderContents: React.FC<SelectedFolderContentsProps> = ({ selectedFolder, folderData, noteData }) => {
+const SelectedFolderContents: React.FC<SelectedFolderContentsProps> = ({ currentFolder, selectedFolder, folderData, noteData }) => {
   const [addFolderModalOpen, setAddFolderModalOpen] = useState(false);
 
   const mutateAddNewNote = useAddNewNote();
@@ -40,6 +41,13 @@ const SelectedFolderContents: React.FC<SelectedFolderContentsProps> = ({ selecte
       {/* NAV */}
       <div id="rightFolderNav" className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
+          <Link
+            href={currentFolder ? `/${currentFolder.parentFolderId || "home"}?selectedItemId=${currentFolder.id}` : "/"}
+            as={currentFolder ? `/${currentFolder.parentFolderId || "home"}` : "/"}
+            className="block rounded bg-slate-700 p-2 sm:hidden"
+          >
+            <ChevronLeftIcon className="h-6 w-6" />
+          </Link>
           <FolderOpenIcon className="h-6 w-6" />
           <p className="text-xl">{selectedFolder.name}</p>
         </div>
@@ -76,7 +84,7 @@ const SelectedFolderContents: React.FC<SelectedFolderContentsProps> = ({ selecte
   );
 };
 
-const SelectedNoteContents: React.FC<{ selectedNote: Note }> = ({ selectedNote }) => {
+const SelectedNoteContents: React.FC<{ currentFolder: Folder | null; selectedNote: Note }> = ({ currentFolder, selectedNote }) => {
   const [isEditing, setIsEditing] = useState(false);
   const { register, handleSubmit, setValue } = useForm<{ name: string; text: string }>({ defaultValues: { name: selectedNote.name, text: selectedNote.text } });
 
@@ -116,6 +124,13 @@ const SelectedNoteContents: React.FC<{ selectedNote: Note }> = ({ selectedNote }
   return isEditing ? (
     <form id="noteForm" className="flex h-full w-full flex-col gap-2" onSubmit={handleSubmit(saveNote)}>
       <div className="flex items-center justify-between gap-2">
+        <Link
+          href={currentFolder ? `/${currentFolder.parentFolderId || "home"}?selectedItemId=${currentFolder.id}` : "/"}
+          as={currentFolder ? `/${currentFolder.parentFolderId || "home"}` : "/"}
+          className="block rounded bg-slate-700 p-2 sm:hidden"
+        >
+          <ChevronLeftIcon className="h-6 w-6" />
+        </Link>
         <input
           type="text"
           placeholder={`Untitled ${new Date().toLocaleDateString()}`}
@@ -141,7 +156,14 @@ const SelectedNoteContents: React.FC<{ selectedNote: Note }> = ({ selectedNote }
   ) : (
     <>
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 px-2">
+        <div className="flex items-center gap-2">
+          <Link
+            href={currentFolder ? `/${currentFolder.parentFolderId || "home"}?selectedItemId=${currentFolder.id}` : "/"}
+            as={currentFolder ? `/${currentFolder.parentFolderId || "home"}` : "/"}
+            className="block rounded bg-slate-700 p-2 sm:hidden"
+          >
+            <ChevronLeftIcon className="h-6 w-6" />
+          </Link>
           <DocumentIcon className="h-6 w-6" />
           <p className="text-xl">{selectedNote.name}</p>
         </div>
@@ -179,9 +201,9 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
 
   return (
     <Layout>
-      <div className="grid w-full grow grid-cols-[1fr_1px_2fr] gap-2">
+      <div className="w-full grow grid-cols-[1fr_1px_2fr] gap-2 sm:grid">
         {/* LEFT COLUMN */}
-        <div id="leftColumn" className="flex w-full flex-col gap-2">
+        <div id="leftColumn" className="hidden w-full flex-col gap-2 sm:flex">
           {/* LEFT NAV */}
           <div id="leftNav" className="flex w-full items-center justify-between">
             <div className="flex items-center gap-2">
@@ -226,14 +248,14 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
         </div>
 
         {/* DIVIDER */}
-        <span id="divider" className="bg-slate-600" />
+        <span id="divider" className="hidden bg-slate-600 sm:block" />
 
         {/* RIGHT COLUMN */}
         <div id="rightColumn" className="flex w-full flex-col gap-2">
           {/* FOLDER SELECTED */}
-          {selectedFolder && <SelectedFolderContents selectedFolder={selectedFolder} folderData={folderData} noteData={noteData} />}
+          {selectedFolder && <SelectedFolderContents currentFolder={currentFolder} selectedFolder={selectedFolder} folderData={folderData} noteData={noteData} />}
           {/* NOTE SELECTED */}
-          {selectedNote && <SelectedNoteContents selectedNote={selectedNote} />}
+          {selectedNote && <SelectedNoteContents currentFolder={currentFolder} selectedNote={selectedNote} />}
         </div>
       </div>
       {addFolderModalOpen && <AddFolderModal isOpen={addFolderModalOpen} setIsOpen={setAddFolderModalOpen} parentFolderId={currentFolder?.id || null} />}
