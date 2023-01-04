@@ -11,7 +11,17 @@ import Layout from "../../components/Layout";
 import FolderItem from "../../components/FolderItem";
 import NoteItem from "../../components/NoteItem";
 import AddFolderModal from "../../components/AddFolderModal";
-import { DocumentIcon, ChevronLeftIcon, PencilSquareIcon, DocumentCheckIcon, ArrowUturnLeftIcon, FolderIcon, FolderPlusIcon, DocumentPlusIcon } from "@heroicons/react/24/outline";
+import {
+  DocumentIcon,
+  ChevronLeftIcon,
+  PencilSquareIcon,
+  DocumentCheckIcon,
+  ArrowUturnLeftIcon,
+  FolderPlusIcon,
+  DocumentPlusIcon,
+  HomeIcon,
+  FolderOpenIcon,
+} from "@heroicons/react/24/outline";
 
 interface NotePageContentsProps {
   currentNote: Note;
@@ -74,8 +84,17 @@ const NotePageContents: React.FC<NotePageContentsProps> = ({ currentNote, folder
               >
                 <ChevronLeftIcon className="h-6 w-6" />
               </button>
-              <FolderIcon className="h-6 w-6" />
-              <p className="text-xl">{folderData.find((folder) => folder.id === currentNote.parentFolderId)?.name || "Home"}</p>
+              {folderData.find((folder) => folder.id === currentNote.parentFolderId) ? (
+                <>
+                  <FolderOpenIcon className="h-6 w-6" />
+                  <p className="text-xl">{folderData.find((folder) => folder.id === currentNote.parentFolderId)?.name}</p>
+                </>
+              ) : (
+                <>
+                  <HomeIcon className="h-6 w-6" />
+                  <p className="text-xl">Home</p>
+                </>
+              )}
             </div>
             <div className="flex gap-2">
               <button className="rounded bg-slate-700 p-2" onClick={() => setAddFolderModalOpen(true)}>

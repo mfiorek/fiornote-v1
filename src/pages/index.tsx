@@ -7,7 +7,7 @@ import Layout from "../components/Layout";
 import FolderItem from "../components/FolderItem";
 import NoteItem from "../components/NoteItem";
 import AddFolderModal from "../components/AddFolderModal";
-import { DocumentPlusIcon, FolderPlusIcon } from "@heroicons/react/24/outline";
+import { HomeIcon, DocumentPlusIcon, FolderPlusIcon } from "@heroicons/react/24/outline";
 
 const Home: NextPage = () => {
   const [addFolderModalOpen, setAddFolderModalOpen] = useState(false);
@@ -25,9 +25,12 @@ const Home: NextPage = () => {
   }
   return (
     <Layout>
-      <div className="mx-auto w-full lg:max-w-5xl">
-        <div className="mb-4 flex w-full items-center justify-between">
-          <h1 className="text-2xl font-extralight">fiornote</h1>
+      <div className="mx-auto flex flex-col gap-2 w-full lg:max-w-5xl">
+        <div className="flex w-full items-center justify-between">
+          <div className="flex items-center gap-2 px-2">
+            <HomeIcon className="h-6 w-6" />
+            <p className="text-xl">Home</p>
+          </div>
           <div className="flex gap-2">
             <button className="rounded bg-slate-700 p-2" onClick={() => setAddFolderModalOpen(true)}>
               <FolderPlusIcon className="h-6 w-6" />
@@ -37,6 +40,7 @@ const Home: NextPage = () => {
             </button>
           </div>
         </div>
+        <span className="h-px bg-slate-600" />
         <div className="flex w-full flex-col gap-2">
           <div className="flex w-full flex-col gap-2">
             {folderData
