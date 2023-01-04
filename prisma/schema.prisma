@@ -11,24 +11,28 @@ datasource db {
 }
 
 model Note {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  text      String
-  parent    String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String   @id @default(uuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  name           String
+  text           String
+  parentFolderId String?
+  parentFolder   Folder?  @relation(fields: [parentFolderId], references: [id])
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Folder {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  parent    String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String   @id @default(uuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  name           String
+  parentFolderId String?
+  parentFolder   Folder?  @relation("ParentChildFolder", fields: [parentFolderId], references: [id])
+  childFolders   Folder[] @relation("ParentChildFolder")
+  Note           Note[]
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Necessary for Next auth

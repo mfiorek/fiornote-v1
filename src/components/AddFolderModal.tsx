@@ -6,17 +6,17 @@ import { Dialog } from "@headlessui/react";
 interface AddFolderModalProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  parent: string | null;
+  parentFolderId: string | null;
 }
 
-const AddFolderModal: React.FC<AddFolderModalProps> = ({ isOpen, setIsOpen, parent }) => {
+const AddFolderModal: React.FC<AddFolderModalProps> = ({ isOpen, setIsOpen, parentFolderId }) => {
   const utils = trpc.useContext();
   const { mutate: mutateAddFolder } = trpc.folder.add.useMutation({
-    onMutate: async ({ id, name, parent }) => {
+    onMutate: async ({ id, name, parentFolderId }) => {
       await utils.folder.getAll.cancel();
       const previousFolders = utils.folder.getAll.getData();
       if (previousFolders) {
-        utils.folder.getAll.setData(undefined, [...previousFolders, { id, name, parent, createdAt: new Date(), updatedAt: new Date(), userId: "" }]);
+        utils.folder.getAll.setData(undefined, [...previousFolders, { id, name, parentFolderId, createdAt: new Date(), updatedAt: new Date(), userId: "" }]);
       }
       return previousFolders;
     },
@@ -35,7 +35,7 @@ const AddFolderModal: React.FC<AddFolderModalProps> = ({ isOpen, setIsOpen, pare
   } = useForm<{ name: string }>({ defaultValues: { name: "" } });
 
   const handleAddFolder: SubmitHandler<{ name: string }> = (data) => {
-    mutateAddFolder({ id: crypto.randomUUID(), name: data.name, parent: parent });
+    mutateAddFolder({ id: crypto.randomUUID(), name: data.name, parentFolderId: parentFolderId });
     setIsOpen(false);
   };
 

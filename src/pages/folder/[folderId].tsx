@@ -33,25 +33,25 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
               <button
                 className="cursor-pointer rounded bg-slate-700 p-2"
                 onClick={() => {
-                  currentFolder.parent ? router.push(`/folder/${currentFolder.parent}`) : router.push("/");
+                  currentFolder.parentFolderId ? router.push(`/folder/${currentFolder.parentFolderId}`) : router.push("/");
                 }}
               >
                 <ChevronLeftIcon className="h-6 w-6" />
               </button>
               <FolderOpenIcon className="h-6 w-6" />
-              <p className="text-xl">{folderData.find((folder) => folder.id === currentFolder.parent)?.name || "Home"}</p>
+              <p className="text-xl">{folderData.find((folder) => folder.id === currentFolder.parentFolderId)?.name || "Home"}</p>
             </div>
             <div className="flex gap-2">
               <button
                 className="rounded bg-slate-700 p-2"
                 onClick={() => {
-                  setAddFolderModalParent(currentFolder.parent);
+                  setAddFolderModalParent(currentFolder.parentFolderId);
                   setAddFolderModalOpen(true);
                 }}
               >
                 <FolderPlusIcon className="h-6 w-6" />
               </button>
-              <button className="rounded bg-slate-700 p-2" onClick={() => mutateAddNewNote({ id: crypto.randomUUID(), parent: currentFolder.parent })} >
+              <button className="rounded bg-slate-700 p-2" onClick={() => mutateAddNewNote({ id: crypto.randomUUID(), parentFolderId: currentFolder.parentFolderId })}>
                 <DocumentPlusIcon className="h-6 w-6" />
               </button>
             </div>
@@ -59,7 +59,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
           <span className="h-px bg-slate-600" />
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {folderData
-              .filter((folder) => folder.parent === currentFolder?.parent)
+              .filter((folder) => folder.parentFolderId === currentFolder?.parentFolderId)
               .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((folder) => (
                 <FolderItem key={folder.id} folder={folder} isSelected={folder.id === currentFolder?.id} />
@@ -67,7 +67,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
           </div>
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {noteData
-              .filter((note) => note.parent === currentFolder?.parent)
+              .filter((note) => note.parentFolderId === currentFolder?.parentFolderId)
               .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((note) => (
                 <NoteItem key={note.id} note={note} />
@@ -94,7 +94,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
               >
                 <FolderPlusIcon className="h-6 w-6" />
               </button>
-              <button className="rounded bg-slate-700 p-2" onClick={() => mutateAddNewNote({ id: crypto.randomUUID(), parent: currentFolder.id })}>
+              <button className="rounded bg-slate-700 p-2" onClick={() => mutateAddNewNote({ id: crypto.randomUUID(), parentFolderId: currentFolder.id })}>
                 <DocumentPlusIcon className="h-6 w-6" />
               </button>
             </div>
@@ -102,7 +102,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
           <span className="h-px bg-slate-600" />
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {folderData
-              .filter((folder) => folder.parent === currentFolder.id)
+              .filter((folder) => folder.parentFolderId === currentFolder.id)
               .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((folder) => (
                 <FolderItem key={folder.id} folder={folder} />
@@ -110,7 +110,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
           </div>
           <div className="flex w-full flex-col gap-2 empty:hidden">
             {noteData
-              .filter((note) => note.parent === currentFolder.id)
+              .filter((note) => note.parentFolderId === currentFolder.id)
               .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
               .map((note) => (
                 <NoteItem key={note.id} note={note} />
@@ -118,7 +118,7 @@ const FolderPageContents: React.FC<NotePageContentsProps> = ({ currentFolder, fo
           </div>
         </div>
       </div>
-      {addFolderModalOpen && <AddFolderModal isOpen={addFolderModalOpen} setIsOpen={setAddFolderModalOpen} parent={addFolderModalParent} />}
+      {addFolderModalOpen && <AddFolderModal isOpen={addFolderModalOpen} setIsOpen={setAddFolderModalOpen} parentFolderId={addFolderModalParent} />}
     </Layout>
   );
 };

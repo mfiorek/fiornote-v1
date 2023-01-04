@@ -6,14 +6,14 @@ export const noteRouter = router({
     .input(
       z.object({
         id: z.string(),
-        parent: z.string().nullable(),
+        parentFolderId: z.string().nullable(),
       })
     )
     .mutation(({ ctx, input }) => {
       return ctx.prisma.note.create({
         data: {
           id: input.id,
-          parent: input.parent,
+          parentFolderId: input.parentFolderId,
           userId: ctx.session.user.id,
           name: `New note ${new Date().toLocaleDateString()}`,
           text: "",

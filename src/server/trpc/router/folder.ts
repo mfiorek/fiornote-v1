@@ -7,7 +7,7 @@ export const folderRouter = router({
       z.object({
         id: z.string(),
         name: z.string(),
-        parent: z.string().nullable(),
+        parentFolderId: z.string().nullable(),
       })
     )
     .mutation(({ ctx, input }) => {
@@ -15,7 +15,7 @@ export const folderRouter = router({
         data: {
           id: input.id,
           name: input.name,
-          parent: input.parent,
+          parentFolderId: input.parentFolderId,
           userId: ctx.session.user.id,
         },
       });

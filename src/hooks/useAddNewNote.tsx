@@ -6,13 +6,13 @@ export const useAddNewNote = () => {
 
   const utils = trpc.useContext();
   const { mutate: mutateAddNote } = trpc.note.add.useMutation({
-    onMutate: async ({ id, parent }) => {
+    onMutate: async ({ id, parentFolderId }) => {
       await utils.note.getAll.cancel();
       const previousNotes = utils.note.getAll.getData();
       if (previousNotes) {
         utils.note.getAll.setData(undefined, [
           ...previousNotes,
-          { id, parent, createdAt: new Date(), updatedAt: new Date(), name: `New note ${new Date().toLocaleDateString()}`, text: "", userId: "" },
+          { id, parentFolderId, createdAt: new Date(), updatedAt: new Date(), name: `New note ${new Date().toLocaleDateString()}`, text: "", userId: "" },
         ]);
       }
       return previousNotes;
